@@ -13,16 +13,18 @@ import java.util.*;
 public class RoomManager implements IRoom {
     private Scanner scanner;
     private RoomRepository roomRepository;
+    private RoomScheduleRepository roomScheduleRepository;
     public RoomManager() {
         scanner = new Scanner(System.in);
         roomRepository = new RoomRepository();
+        roomScheduleRepository = new RoomScheduleRepository();
     }
 
     public void loadMenu() {
         roomProgram : do {
             System.out.println(" ========== MENU ==========");
             System.out.println("1. Hiển thị danh sách tất cả phòng");
-            System.out.println("2. Tra cứu phòng trống theo loại và thời gian lưu trú");
+            System.out.println("2. Tra cứu phòng trống theo loại ");
             System.out.println("0. Thoát chức năng");
             System.out.println("=========================");
             System.out.print("Mời nhập: ");
@@ -32,27 +34,9 @@ public class RoomManager implements IRoom {
                     getRoomList();
                     break;
                 case 2:
-                    subRoomProgram : while(true) {
-                        System.out.print("Nhập kiểu tra cứu phòng(type/time): ");
-                        String typeRoom=scanner.nextLine();
-                        switch (typeRoom) {
-                            case "type":
-                                System.out.print("Nhập kiểu phòng(SINGLE/DOUBLE/SUITE): ");
-                                String type=scanner.nextLine();
-
-                                break subRoomProgram;
-                            case "time":
-                                System.out.print("Nhập thời gian: ");
-                                String date = scanner.nextLine();
-                                DateTimeFormatter formatter= DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                                LocalDate time = LocalDate.parse(date, formatter);
-
-                                break subRoomProgram;
-                            default:
-                                System.out.println("Nhập sai. Vui lòng nhập lại");
-                                break;
-                        }
-                    }
+                    System.out.print("Nhập kiểu phòng(SINGLE/DOUBLE/SUITE): ");
+                    String type=scanner.nextLine().toUpperCase();
+                    findByRoomType(type);
                     break;
                 case 0:
 
@@ -72,9 +56,17 @@ public class RoomManager implements IRoom {
     }
 
     //2. Tra cứu phòng trống theo loại và thời gian lưu trú
+    public String formatDay(String date){
+        String [] parts = date.split("[-/]");
+        String day = parts[0];
+        String month = parts[1];
+        String year = parts[2];
+        if(day.length()==1)day="0"+day;
+        if(month.length()==1)month="0"+month;
+        return day+"-"+month+"-"+year;
+    }
     public Map<String, RoomSchedule> getCheckOutList(){
         Map<String, RoomSchedule> result= new HashMap<>();
-        RoomScheduleRepository roomScheduleRepository = new RoomScheduleRepository();
         List<RoomSchedule> roomSchedules = roomScheduleRepository.getRoomSchedles();
         for(RoomSchedule roomSchedule : roomSchedules) {
             if(roomSchedule.geteRoomSchedule().toString().equalsIgnoreCase("checkout")) {
@@ -96,6 +88,29 @@ public class RoomManager implements IRoom {
     }
 
     public void findByRoomType(String type){
+        Map<String, RoomSchedule> resultCheckOut= getCheckOutList();
+        Map<String, RoomSchedule> resultCheckIn= getCheckInList();
+        List<RoomSchedule> roomSchedules = roomScheduleRepository.getRoomSchedles();
+        List<Room> rooms = roomRepository.getRooms();
 
+        for (Room room : rooms) {
+            String id = room.getId();
+            if(resultCheckIn.containsKey(id)&&resultCheckOut.containsKey(id)) {
+                LocalDate dayCheckIn= resultCheckIn.get(id).getBookingHistory();
+                LocalDate dayCheckOut= resultCheckOut.get(id).getBookingHistory();
+                if(today.isBefore(dayCheckIn)||today.isAfter(dayCheckOut)) {
+                    if(resultCheckOut.get(id).geteRoomSchedule().toString().equalsIgnoreCase(type)) {
+                        System.out.println(room.toString());
+                    }
+                }
+            }else{
+                if (room.getType().toString().equalsIgnoreCase(type)) {
+                    System.out.println(room.toString());
+                }
+            }
+        }
     }
+
+
+
 }
