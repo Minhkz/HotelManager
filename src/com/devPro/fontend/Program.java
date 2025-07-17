@@ -5,7 +5,6 @@ import com.devPro.backend.manager.RoomManager;
 
 public class Program {
     public static void main(String[] args) {
-        RoomManager rm = new RoomManager();
-        rm.loadMenu();
+
     }
 }

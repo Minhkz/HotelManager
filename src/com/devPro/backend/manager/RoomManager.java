@@ -4,13 +4,14 @@ import com.devPro.backend.entity.Room;
 import com.devPro.backend.entity.RoomSchedule;
 import com.devPro.backend.repository.RoomRepository;
 import com.devPro.backend.repository.RoomScheduleRepository;
+import com.devPro.interfaces.IFormatDate;
 import com.devPro.interfaces.IRoom;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class RoomManager implements IRoom {
+public class RoomManager implements IRoom, IFormatDate {
     private Scanner scanner;
     private RoomRepository roomRepository;
     private RoomScheduleRepository roomScheduleRepository;
@@ -55,16 +56,7 @@ public class RoomManager implements IRoom {
         }
     }
 
-    //2. Tra cứu phòng trống theo loại và thời gian lưu trú
-    public String formatDay(String date){
-        String [] parts = date.split("[-/]");
-        String day = parts[0];
-        String month = parts[1];
-        String year = parts[2];
-        if(day.length()==1)day="0"+day;
-        if(month.length()==1)month="0"+month;
-        return day+"-"+month+"-"+year;
-    }
+    //2. Tra cứu phòng trống theo loại
     public Map<String, RoomSchedule> getCheckOutList(){
         Map<String, RoomSchedule> result= new HashMap<>();
         List<RoomSchedule> roomSchedules = roomScheduleRepository.getRoomSchedles();
@@ -109,7 +101,7 @@ public class RoomManager implements IRoom {
                 }
             }
         }
-    }
+    }  
 
 
 

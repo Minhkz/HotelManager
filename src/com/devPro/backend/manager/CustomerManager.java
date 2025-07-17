@@ -50,8 +50,7 @@ public class CustomerManager implements ICustomer {
 
     //1. Thêm khách hàng mới
     public void addCustomer(){
-        System.out.print("Nhập id: ");
-        String id = scanner.nextLine();
+        String id = String.format("CUST%03d",customerRepository.getCustomers().size()+1);
         System.out.print("Nhập name: ");
         String name = scanner.nextLine();
         System.out.print("Nhập số điện thoại: ");
