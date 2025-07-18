@@ -3,6 +3,7 @@ package com.devPro.backend.repository;
 import com.devPro.backend.entity.Booking;
 import com.devPro.backend.entity.Customer;
 import com.devPro.backend.entity.Room;
+import com.devPro.interfaces.IBooking;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,7 +13,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookingRepository {
+import static com.devPro.interfaces.IFormatDate.formatter;
+
+public class BookingRepository implements IBooking {
     private List<Booking> bookings;
 
     public BookingRepository() {
@@ -25,9 +28,8 @@ public class BookingRepository {
 
     public List<Booking> mockDataInFile() {
         List<Booking> list= new ArrayList<Booking>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         try {
-            File f= new File("C:\\Users\\Minhkz\\eclipse-workspace\\BTCK\\data\\bookings");
+            File f= new File(fileAddressBooking);
             BufferedReader br = new BufferedReader(new FileReader(f));
             String line;
             br.readLine();

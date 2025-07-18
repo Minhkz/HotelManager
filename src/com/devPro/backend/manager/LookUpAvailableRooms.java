@@ -16,6 +16,7 @@ public class LookUpAvailableRooms implements IFormatDate {
 
     public LookUpAvailableRooms() {
         roomScheduleRepository = new RoomScheduleRepository();
+        roomRepository = new RoomRepository();
     }
     public Map<String, List<RoomSchedule>> getBookingRoomList(){
         Map<String, List<RoomSchedule>> results = new HashMap<>();

@@ -30,7 +30,7 @@ public class CustomerRepository implements ICustomer {
             f= new File(fileAddressCustomer);
             br = new BufferedReader(new FileReader(f));
             String line;
-            br.readLine();
+            br.readLine();//bỏ đi dòng đầu trg file
             while((line=br.readLine())!= null) {
                 String [] parts = line.split(";");
                 String id= parts[0];

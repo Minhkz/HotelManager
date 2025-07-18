@@ -1,5 +1,7 @@
 package com.devPro.interfaces;
 
+import java.time.format.DateTimeFormatter;
+
 public interface IFormatDate {
     default String formatDay(String date){
         String [] parts = date.split("[-/]");
@@ -10,4 +12,5 @@ public interface IFormatDate {
         if(month.length()==1)month="0"+month;
         return day+"-"+month+"-"+year;
     }
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 }

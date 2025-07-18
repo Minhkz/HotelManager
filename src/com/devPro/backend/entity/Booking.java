@@ -1,8 +1,10 @@
 package com.devPro.backend.entity;
 
+import com.devPro.interfaces.IFormatDate;
+
 import java.time.LocalDate;
 
-public class Booking {
+public class Booking implements IFormatDate {
     private String id;
     private Customer customer;
     private Room room;
@@ -17,6 +19,9 @@ public class Booking {
         this.room = room;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
+    }
+    public Booking(String id){
+        this.id = id;
     }
     public String getId() {
         return id;
@@ -47,7 +52,7 @@ public class Booking {
     }
     @Override
     public String toString() {
-        return "Booking [id=" + id + ", customer=" + customer + ", room=" + room + ", checkIn=" + checkIn
-                + ", checkOut=" + checkOut + "]";
+        return "Booking [id=" + id + ", customer=" + customer.getId() + ", room=" + room.getId() + ", checkIn=" + checkIn.format(formatter)
+                + ", checkOut=" + checkOut.format(formatter) + "]";
     }
 }
