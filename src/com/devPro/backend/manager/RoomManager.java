@@ -23,7 +23,7 @@ public class RoomManager implements IRoom, IFormatDate {
 
     public void loadMenu() {
         roomProgram : do {
-            System.out.println(" ========== MENU ==========");
+            System.out.println(" ========== MENU ROOM==========");
             System.out.println("1. Hiển thị danh sách tất cả phòng");
             System.out.println("2. Tra cứu phòng trống theo loại ");
             System.out.println("0. Thoát chức năng");

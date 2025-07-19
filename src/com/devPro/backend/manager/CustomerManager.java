@@ -21,7 +21,7 @@ public class CustomerManager implements ICustomer {
     }
     public void loadMenu() {
         menu: do {
-            System.out.println("========== MENU ==========");
+            System.out.println("========== MENU CUSTOMER ==========");
             System.out.println("1. Thêm khách hàng mới");
             System.out.println("2. Hiển thị danh sách khách hàng");
             System.out.println("3. Tìm kiếm khách hàng theo mã hoặc tên");
@@ -102,7 +102,7 @@ public class CustomerManager implements ICustomer {
         List<Customer> customers = customerRepository.getCustomers();
         customerProgram: while(true) {
             System.out.print("Nhập kiểu tra cứu khách hàng(id/name): ");
-            String text = scanner.nextLine();
+            String text = scanner.nextLine().toLowerCase();
             switch (text) {
                 case "id":
                     System.out.print("Nhâp id: ");
