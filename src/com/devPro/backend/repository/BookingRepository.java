@@ -8,6 +8,7 @@ import com.devPro.interfaces.IBooking;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -28,9 +29,11 @@ public class BookingRepository implements IBooking {
 
     public List<Booking> mockDataInFile() {
         List<Booking> list= new ArrayList<Booking>();
+        File f =null;
+        BufferedReader br=null;
         try {
-            File f= new File(fileAddressBooking);
-            BufferedReader br = new BufferedReader(new FileReader(f));
+            f= new File(fileAddressBooking);
+            br = new BufferedReader(new FileReader(f));
             String line;
             br.readLine();
             while((line=br.readLine())!= null) {
@@ -45,6 +48,13 @@ public class BookingRepository implements IBooking {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        if (br != null) {
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return list;
     }

@@ -8,6 +8,7 @@ import com.devPro.interfaces.IRoom;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +25,11 @@ public class RoomRepository implements IRoom {
 
     public List<Room> mockDataInFile() {
         List<Room> list= new ArrayList<Room>();
+        File f= null;
+        BufferedReader br= null;
         try {
-            File f= new File(fileAddressRoom);
-            BufferedReader br = new BufferedReader(new FileReader(f));
+            f= new File(fileAddressRoom);
+            br = new BufferedReader(new FileReader(f));
             String line;
             br.readLine();
             while((line=br.readLine())!= null) {
@@ -40,6 +43,13 @@ public class RoomRepository implements IRoom {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        if (br != null) {
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return list;
     }

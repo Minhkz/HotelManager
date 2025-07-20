@@ -8,6 +8,7 @@ import com.devPro.interfaces.IRoomSchedule;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -27,9 +28,11 @@ public class RoomScheduleRepository implements IRoomSchedule {
     public List<RoomSchedule> mockDataInFile() {
         List<RoomSchedule> list= new ArrayList<RoomSchedule>();
         DateTimeFormatter formatter= DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        File f=null;
+        BufferedReader br=null;
         try {
-            File f= new File(fileAddressRoomSchedule);
-            BufferedReader br = new BufferedReader(new FileReader(f));
+            f= new File(fileAddressRoomSchedule);
+            br = new BufferedReader(new FileReader(f));
             String line;
             br.readLine();
             while((line=br.readLine())!= null) {
@@ -42,6 +45,13 @@ public class RoomScheduleRepository implements IRoomSchedule {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        if (br!=null) {
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return list;
     }
